@@ -15,14 +15,11 @@ def chrome():
     driver.maximize_window()
     return driver
 
-driver = chrome()
-
-try:
+def login(driver, wait):
     #load websitee
     website = 'https://www.saucedemo.com/'
     driver.get(website)
-    wait = WebDriverWait(driver, 5)    
-
+       
     #login
     username = driver.find_element(By.CSS_SELECTOR, '[data-test="username"]')        
     username.send_keys(LOGIN_CREDENTIALS["valid"]["username"])
@@ -36,9 +33,15 @@ try:
     wait.until(EC.url_contains("inventory.html"))
     print("Login successful!")
         
-except Exception as e:
-    print(f"login failed: {str(e)}")
-    driver.save_screenshot("error.png")
+if __name__ == "__main__":
+    driver = chrome()
+    wait = WebDriverWait(driver, 5) 
+    
+    try:
+        login(driver,wait)
+    except Exception as e:
+        print(f"login failed: {str(e)}")
+        driver.save_screenshot("error.png")
 
-finally:
-    driver.quit()
+    finally:
+        driver.quit()

@@ -3,33 +3,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from config import LOGIN_CREDENTIALS, CHECKOUT_INFO
-
+from login_test import login,chrome
 #navigator
-def chrome():
-    options = webdriver.ChromeOptions()
-    #options.add_argument("--headless") #without graphical interface
-    options.add_argument('--ignore-ssl-errors=yes')
-    options.add_argument('--ignore-certificate-errors')
-    options.add_argument('--incognito')
-    driver = webdriver.Chrome(options=options)
-    driver.maximize_window()
-    return driver
 
 driver = chrome()
-
+wait = WebDriverWait(driver, 5)  
+      
 try:
-    website = 'https://www.saucedemo.com/'    
-    driver.get(website)
-    wait = WebDriverWait(driver, 5)    
-
-    username = driver.find_element(By.CSS_SELECTOR, '[data-test="username"]')
-    username.send_keys(LOGIN_CREDENTIALS["valid"]["username"])
-
-    password = driver.find_element(By.CSS_SELECTOR, '[data-test="password"]')
-    password.send_keys(LOGIN_CREDENTIALS["valid"]["password"])
-
-    login_button = driver.find_element(By.CSS_SELECTOR, '[data-test="login-button"]')
-    login_button.click()
+    login(driver,wait)
 
 
     add_item_btn = driver.find_element(By.ID, "add-to-cart-sauce-labs-backpack")
